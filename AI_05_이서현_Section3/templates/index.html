@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코로나19 지역별 현황</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js'></script>
+</head>
+<body>
+    <h1>코로나19 지역별 현황</h1>
+    <h3>도시명</h3>
+    {% for d in data %}"{{d.gubun}}",{% endfor %}
+    <hr>
+    <h3>사망자 누적수</h3>
+    {% for d in data %}{{d.deathCnt}},{% endfor %}
+    <hr>
+    <h3>전일대비 확진자 증감 수</h3>
+    {% for d in data %}
+        {{d.incDec}}
+    {% endfor %}
+    <hr>
+    <h3>격리 해제 수</h3>
+    {% for d in data %}
+        {{d.isolClearCnt}}  
+    {% endfor %}
+    <hr>
+    <div>
+        <h1>지역별 사망자 누적수</h1>
+        <canvas id="deathCnt"></canvas>
+
+        <h1>전일대비 확진자 증감수</h1>
+        <canvas id="incDec"></canvas>
+
+        <h1>격리 해제 수</h1>
+        <canvas id="isolClearCnt"></canvas>
+    </div>
+    <script>
+        //사망자 수 graph
+        var ctx_deathCnt = document.getElementById('deathCnt').getContext('2d');
+        var deathCntChart = new Chart(ctx_deathCnt, {
+            type: 'doughnut',
+            data: {
+                labels: [{% for d in data %}"{{d.gubun}}",{% endfor %}],
+                datasets: [{
+                    label: '지역별 사망자 누적수',
+                    data: [{% for d in data %}{{d.deathCnt}},{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(0, 255, 0, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(0, 0, 255, 0.2)',
+                        'rgba(30, 159, 33, 0.2)',
+                        'rgba(128, 128, 128, 0.2)',
+                        'rgba(255, 0, 255, 0.2)',
+                        'rgba(128, 0, 128, 0.2)',
+                        'rgba(5, 19, 4, 0.2)',
+                        'rgba(0, 100, 128, 0.2)',
+                        'rgba(0, 255, 255, 0.2)',
+                        'rgba(255, 0, 0, 0.2)',
+                        'rgba(155, 259, 25, 0.2)',
+                        'rgba(200, 19, 14, 0.2)',
+                        'rgba(0, 139, 0, 0.2)',
+                        'rgba(0, 0, 128, 0.2)'
+                    ]
+                }]
+            }          
+        });
+
+            //전일대비 확진자 증감수 graph
+        var ctx_incDec = document.getElementById('incDec').getContext('2d');
+        var incDecChart = new Chart(ctx_incDec, {
+            type: 'doughnut',
+            data: {
+                labels: [{% for d in data %}"{{d.gubun}}",{% endfor %}],
+                datasets: [{
+                    label: '전일대비 확진자 증감수',
+                    data: [{% for d in data %}{{d.incDec}},{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(0, 255, 0, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(0, 0, 255, 0.2)',
+                        'rgba(30, 159, 33, 0.2)',
+                        'rgba(128, 128, 128, 0.2)',
+                        'rgba(255, 0, 255, 0.2)',
+                        'rgba(128, 0, 128, 0.2)',
+                        'rgba(5, 19, 4, 0.2)',
+                        'rgba(0, 100, 128, 0.2)',
+                        'rgba(0, 255, 255, 0.2)',
+                        'rgba(255, 0, 0, 0.2)',
+                        'rgba(155, 259, 25, 0.2)',
+                        'rgba(200, 19, 14, 0.2)',
+                        'rgba(0, 139, 0, 0.2)',
+                        'rgba(0, 0, 128, 0.2)'
+                    ]
+                }]
+            }          
+        });
+
+            //격리해제 수 graph
+        var ctx_isolClearCnt = document.getElementById('isolClearCnt').getContext('2d');
+        var isolClearCntChart = new Chart(ctx_isolClearCnt, {
+            type: 'doughnut',
+            data: {
+                labels: [{% for d in data %}"{{d.gubun}}",{% endfor %}],
+                datasets: [{
+                    label: '격리해제 수',
+                    data: [{% for d in data %}{{d.isolClearCnt}},{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(0, 255, 0, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(0, 0, 255, 0.2)',
+                        'rgba(30, 159, 33, 0.2)',
+                        'rgba(128, 128, 128, 0.2)',
+                        'rgba(255, 0, 255, 0.2)',
+                        'rgba(128, 0, 128, 0.2)',
+                        'rgba(5, 19, 4, 0.2)',
+                        'rgba(0, 100, 128, 0.2)',
+                        'rgba(0, 255, 255, 0.2)',
+                        'rgba(255, 0, 0, 0.2)',
+                        'rgba(155, 259, 25, 0.2)',
+                        'rgba(200, 19, 14, 0.2)',
+                        'rgba(0, 139, 0, 0.2)',
+                        'rgba(0, 0, 128, 0.2)'
+                    ]
+                }]
+            }          
+        });
+    </script>
+</body>
+</html>
